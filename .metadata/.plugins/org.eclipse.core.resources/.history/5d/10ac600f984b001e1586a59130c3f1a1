@@ -1,0 +1,98 @@
+package com.shopping.model.dao;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.shopping.model.bean.Product;
+
+public class ProductDao extends SuperDao{
+
+	public List<Product> selectAll() throws Exception{
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		String sql = " select * from products order by pnum desc" ;
+		conn = super.getConnection();
+		pstmt = conn.prepareStatement(sql);
+		
+		rs=pstmt.executeQuery();
+		List<Product> lists = new ArrayList<Product>();
+		
+		while (rs.next()) {
+			lists.add(getBeanData(rs));		
+		}
+		
+		if(rs != null) { rs.close();}
+		if(pstmt != null) { pstmt.close();}
+		if(conn != null) { conn.close();}
+		
+		return lists;
+	}
+	
+	private Product getBeanData(ResultSet rs) throws Exception {
+		//ResultSet 정보를 Bean으로 만들어서 반환해 줍니다.
+		Product bean = new Product();
+		bean.setCategory(rs.getString("category"));
+		bean.setCompany(rs.getString("company"));
+		bean.setContents(rs.getString("contents"));
+		bean.setImage01(rs.getString("image01"));
+		bean.setImage02(rs.getString("image02"));
+		bean.setImage03(rs.getString("image03"));
+		bean.setName(rs.getString("name"));
+		
+		bean.setInputdate(String.valueOf(rs.getDate("inputdate")));
+
+		bean.setPnum(rs.getInt("pnum"));
+		bean.setPoint(rs.getInt("point"));
+		bean.setPrice(rs.getInt("price"));
+		bean.setStock(rs.getInt("stock"));
+		
+
+		return bean;		
+	}
+	/*
+	 * public Product getDataByPk02(int pnum) { // 해당 상품 번호에 맞는 상품 Bean을 반환합니다.
+	 * if(pnum == 1) { return new Product(1, "콜라", "갑을 상회", "brioche_01.png",
+	 * "americano01.png", "coffee01.png", 10, 1000, "bread",
+	 * "이 상품은 매우 시원하고, 맛있습니다.", 5, "2023/10/10"); }else if(pnum == 2) { return new
+	 * Product(2, "사이다", "갑을 상회", "ciabatta_01.png", "americano01.png", null, 10,
+	 * 2000, "bread", "탁 쏩니다", 5, "2023/10/10") ; }else { return new Product(3,
+	 * "환타", "갑을 상회", "coffee01.png", null, null, 10, 3000, "bread", "탁 쏩니다", 5,
+	 * "2023/10/10") ; } }
+	 * 
+	 * public Product getDataByPk(int pnum) { Product bean = new Product(pnum, "콜라",
+	 * "갑을 상회", "coffee01.png", null, null, 10, 1000, "bread", "탁 쏩니다", 5,
+	 * "2023/10/10");
+	 * 
+	 * return bean; }
+	 * 
+	 * public List<Product> getDataList(){ List<Product> lists = new
+	 * ArrayList<Product>();
+	 * 
+	 * lists.add(new Product(1, "콜라", "갑을 상회", "brioche_01.png", "americano01.png",
+	 * "coffee01.png", 10, 1000, "bread", "이 상품은 매우 시원하고, 맛있습니다.", 5,
+	 * "2023/10/10"));
+	 * 
+	 * lists.add(new Product(2, "사이다", "갑을 상회", "ciabatta_01.png",
+	 * "americano01.png", null, 10, 2000, "bread", "탁 쏩니다", 5, "2023/10/10"));
+	 * 
+	 * lists.add(new Product(3, "환타", "갑을 상회", "cappuccino01.png", null, null, 10,
+	 * 3000, "bread", "탁 쏩니다", 5, "2023/10/10"));
+	 * 
+	 * lists.add(new Product(4, "이프로", "갑을 상회", "chocolate_cake_01.png", null, null,
+	 * 10, 1000, "bread", "탁 쏩니다", 5, "2023/10/10"));
+	 * 
+	 * lists.add(new Product(5, "콜라", "갑을 상회", "vanila.png", null, null, 10, 1000,
+	 * "bread", "탁 쏩니다", 5, "2023/10/10"));
+	 * 
+	 * lists.add(new Product(6, "콜라", "갑을 상회", "brioche_01.png", null, null, 10,
+	 * 1000, "bread", "탁 쏩니다", 5, "2023/10/10"));
+	 * 
+	 * lists.add(new Product(7, "콜라", "갑을 상회", "coffee01.png", null, null, 10, 1000,
+	 * "bread", "탁 쏩니다", 5, "2023/10/10"));
+	 * 
+	 * return lists ; }
+	 */
+}

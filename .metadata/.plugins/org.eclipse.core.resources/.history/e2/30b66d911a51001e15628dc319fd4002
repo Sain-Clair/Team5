@@ -1,0 +1,8 @@
+package com.shopping.model.dao;
+
+import java.util.List;
+
+public class CompositeDao extends SuperDao{
+
+
+}

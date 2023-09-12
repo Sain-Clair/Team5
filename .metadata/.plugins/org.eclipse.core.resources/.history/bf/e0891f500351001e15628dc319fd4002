@@ -1,0 +1,33 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+   
+<%@ include file="./../common/common.jsp" %>
+     
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="/jquery.datetimepicker.css"/ >
+<script src="/build/jquery.datetimepicker.full.min.js"></script>
+<script src="/jquery.js"></script>
+<script type="text/javascript">
+jQuery('#datetimepicker3').datetimepicker({
+	  format:'d.m.Y H:i',
+	  inline:true,
+	  lang:'ru'
+	});
+$('#datetimepicker').datetimepicker();
+</script>
+</head>
+<body>
+<%
+	String gotopage = notWithFormTag + "home" ;
+	//out.print(gotopage);
+	response.sendRedirect(gotopage) ;	
+%>
+<input id ="datetimepicker3" type="text">
+
+
+</body>
+</html>

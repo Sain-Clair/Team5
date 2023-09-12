@@ -1,0 +1,5 @@
+package com.shopping.controller.comment;
+
+public class CommentDeleteController {
+
+}

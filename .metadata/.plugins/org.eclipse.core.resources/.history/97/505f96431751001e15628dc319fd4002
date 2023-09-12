@@ -1,0 +1,8 @@
+package com.shopping.controller.view;
+
+import com.shopping.controller.SuperClass;
+
+public class ViewListController extends SuperClass{
+	d
+
+}

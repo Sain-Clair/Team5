@@ -1,0 +1,7 @@
+package com.shopping.controller.member;
+
+import com.shopping.controller.SuperClass;
+
+public class MemberDetailController extends SuperClass{
+
+}

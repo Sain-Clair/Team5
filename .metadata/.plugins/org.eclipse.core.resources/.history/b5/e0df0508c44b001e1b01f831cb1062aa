@@ -1,0 +1,52 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="./../common/common.jsp"%>
+<%@ include file="./../common/bootstrap5.jsp"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="container">
+		<h2>${requestScope.bean.subject}글제목</h2>
+		<table class="table">
+			<thead></thead>
+			<tbody>
+				<tr>
+					<td align="center">글번호</td>
+					<td>${bean.no}</td>
+				</tr>			
+				<tr>
+					<td align="center">작성자</td>
+					<td>${requestScope.bean.id}</td>
+				</tr>
+				<tr>
+					<td align="center">글제목</td>
+					<td>${requestScope.bean.subject}</td>
+				</tr>
+				<tr>
+					<td align="center">글내용</td>
+					<td>${requestScope.bean.content}</td>
+				</tr>
+				<tr>
+					<td align="center">조회수</td>
+					
+						<td>${requestScope.bean.readhit+3}</td>					
+					
+									
+				</tr>
+				<tr>
+					<td align="center">작성일</td>
+					<td>${requestScope.bean.regdate}</td>
+				</tr>
+			</tbody>
+		</table>
+		<div id="backButton">
+			<button type="button" class="btn btn-primary" onclick="history.back();">돌아가기</button>
+
+		</div>
+
+	</div>
+</body>
+</html>

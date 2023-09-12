@@ -1,0 +1,129 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<%@ include file="./../common/common.jsp"%>
+<%@ include file="./../common/bootstrap5.jsp"%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+.container {
+	margin-top: 10px;
+}
+
+tr {
+	opacity: 0.7;
+}
+</style>
+<script type="text/javascript">
+/* select 선택 값 고정 */
+$(function() {
+	var optionList = $('#mode option');
+	for (var i = 0; i < optionList.length; i++) {
+		if (optionList[i].value == '${requestScope.pageInfo.mode}') {
+			optionList[i].selected = true;
+		}
+	}
+	$('#keyword').val('${requestScope.pageInfo.keyword}');
+}
+
+function searchAll(){ //전체 검색
+	location.href = '<%=notWithFormTag%>meList';			
+}
+function writeForm() { // 수정
+	location.href = '<%=notWithFormTag%>meInsert';
+})
+</script>
+</head>
+<body>
+	<div class="container">
+		<h2>회원 목록</h2>
+		<p>회원 목록을 보여 주는 페이지입니다.</p>
+		<hr/>		
+		<!-- 관리자 전용 -->
+		<table class="table table-hover">
+			<thead class="table-dark">
+				<tr>
+					<td colspan="9" align="right">
+						<div class="row">
+							<div class="col-sm-1"></div><!-- grid 화면을 12개로 분할. 그 중에 1 -->
+							<div class="col-sm-10">
+								<form name="myform" action="<%=withFormTag%>" method="get">
+									<input type="hidden" name="command" value="prList">
+									<div class="row">
+										<div class="col-sm-3 mode">
+											<select class="form-control form-control-sm" id="mode" name="mode">
+												<option value="all" selected="selected">--- 선택해 주세요 ---</option>
+												<option value="id">아이디</option>
+												<option value="name">이름</option>
+												<option value="gender">성별</option>
+												<option value="marriage">결혼 여부</option>																								
+											</select>
+										</div>
+										<div class="col-sm-2 keyword">
+											<input class="form-control form-control-sm" type="text" name="keyword" id="keyword" placeholder="키워드 입력">
+										</div>
+										<div class="col">
+											<button type="submit" class="btn btn-warning form-control-sm" onclick="">검색</button>
+										</div>
+										<div class="col">
+											<button type="button" class="btn btn-warning form-control-sm" onclick="searchAll();">전체 검색</button>
+										</div>										
+										<div class="col">${requestScope.pageInfo.pagingStatus}</div>
+									</div>
+								</form>
+							</div>
+							<div class="col-sm-1"></div><!-- grid 화면을 12개로 분할. 그 중에 1 -->
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th>아이디</th>
+					<th>이름</th>
+					<th>비밀 번호</th>
+					<th>성별</th>
+					<th>생일</th>
+					<th>결혼 여부</th>
+					<th>급여</th>
+					<th>주소</th>
+					<th>매니저</th>
+				</tr>
+			</thead>
+			<tbody>			
+				<c:forEach var="bean" items="${datalist}">
+					<c:choose>
+						<c:when test="${bean.marriage eq '결혼'}">
+							<tr class="table-primary">
+						</c:when>
+						<c:when test="${bean.marriage eq '이혼'}">
+							<tr class="table-success">
+						</c:when>
+						<c:otherwise>
+							<tr class="table-danger">
+						</c:otherwise>
+					</c:choose>
+					<td align="center">${bean.id}</td>
+					<td><a href="<%=notWithFormTag%>meDetail&id=${bean.id}">${bean.name}</a></td>
+					<td>${bean.password}</td>
+					
+					<c:if test="${bean.gender eq 'male'}">
+						<td>남자</td>
+					</c:if>
+					
+					<c:if test="${bean.gender eq 'female'}">
+						<td>여자</td>
+					</c:if>
+					<td>${bean.birth}</td>
+					<td>${bean.marriage}</td>
+					<td>${bean.salary}</td>
+					<td>${bean.address}</td>
+					<td>${bean.manager}</td>
+				</c:forEach>
+			</tbody>
+		</table>
+		${requestScope.pageInfo.pagingHtml}
+	</div>
+</body>
+</html>

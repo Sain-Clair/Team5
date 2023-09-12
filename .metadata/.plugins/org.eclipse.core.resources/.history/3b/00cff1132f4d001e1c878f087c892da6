@@ -1,0 +1,135 @@
+<%@page import="javax.security.auth.message.callback.PrivateKeyCallback.Request"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<%@ include file="/common/common.jsp" %>
+<%@ include file="/common/bootstrap5.jsp" %>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+<script type="text/javascript">
+$(document).ready(function(){
+	// Initialize popoveer
+	var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+	var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+				return new bootstrap.Popover(popoverTriggerEl);
+	});
+
+});
+/* select 선택 값 고정 */
+$(function() {
+	var optionList = $('#mode option');
+	for (var i = 0; i < optionList.length; i++) {
+		if (optionList[i].value == '${requestScope.pageInfo.mode}') {
+			optionList[i].selected = true;
+		}
+	}
+	$('#keyword').val('${requestScope.pageInfo.keyword}');
+})
+	
+function searchAll(){ //전체 검색
+	location.href = '<%=notWithFormTag%>prList';			
+}
+function writeForm() { // 글쓰기
+	location.href = '<%=notWithFormTag%>prInsert';
+}
+</script>
+	
+		
+	<style type="text/css">
+		.container{margin-top: 10px;}
+		/* table 셀의 수평 가운데 정렬 */
+		.card{margin-left:auto;margin-right:auto;}
+		.card-img-top{width:300px;height:300px;}
+		.removeUnderLine{text-decoration-line: none;}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h2>상품 목록</h2>
+		<p>고객들이 구매하고자 하는 상품 목록을 보여 주는 페이지입니다.</p>
+		<hr/>		
+		<table class="table table-borderless">
+			<thead>
+				<tr>
+					<td colspan="7" align="right">
+						<div class="row">
+							<div class="col-sm-1"></div><!-- grid 화면을 12개로 분할. 그 중에 1 -->
+							<div class="col-sm-10">
+								<form name="myform" action="<%=withFormTag%>" method="get">
+									<input type="hidden" name="command" value="prList">
+									<div class="row">
+										<div class="col-sm-3 mode">
+											<select class="form-control form-control-sm" id="mode" name="mode">
+												<option value="all" selected="selected">--- 선택해 주세요 ---</option>
+												<option value="category">카테고리(빵, 음료수, 케이크)</option>
+												<option value="company">제조회사</option>
+												<option value="price">가격</option>	
+												<%-- <option value="${asdf.code}"<c:if test="${asdf.code eq test}">selected</c:if>>${asdf.name}</op>
+												<option value="price"<c:if test="${asdf.code eq test}">selected</c:if>>price</op> --%>
+																							
+											</select>
+										</div>
+										<div class="col-sm-2 keyword">
+											<input class="form-control form-control-sm" type="text" name="keyword" id="keyword" placeholder="키워드 입력">
+										</div>
+										<div class="col">
+											<button type="submit" class="btn btn-warning form-control-sm" onclick="">검색</button>
+										</div>
+										<div class="col">
+											<button type="button" class="btn btn-warning form-control-sm" onclick="searchAll();">전체 검색</button>
+										</div>										
+										<div class="col">${requestScope.pageInfo.pagingStatus}</div>
+									</div>
+								</form>
+							</div>
+							<div class="col-sm-1"></div><!-- grid 화면을 12개로 분할. 그 중에 1 -->
+						</div>
+					</td>
+				</tr>			
+			</thead>
+			<tbody>
+				<c:set var="colsu" value="3"/>
+				<c:forEach var="bean" items="${requestScope.datalist}" varStatus="status">
+					<c:if test="${status.index mod colsu == 0}">
+						<tr>
+							</c:if>				 
+							<td> 
+								<div class="card" style="width:19rem;">
+									<a class="removeUnderLine"  href="prDetail02.jsp?pnum=${bean.pnum}">
+										<img class="card-img-top" alt="${bean.name}" src="${pageContext.request.contextPath}/upload/${bean.image01}">
+										<div class="card-body"> 
+											<h5 class="card-title">${bean.name}</h5> 
+											<p class="card-text">
+												<span data-bs-toggle="popover" 
+													title="${bean.name}" 
+													data-bs-trigger="hover"
+													data-bs-content="${bean.contents}">
+													<c:if test="${fn:length(bean.contents) >= 10}">
+													 	${fn:substring(bean.contents, 0, 10)}...
+													</c:if>
+												</span>												
+												<c:if test="${fn:length(bean.contents) < 10}">
+												 	${bean.contents}
+												</c:if>
+											</p>
+											<c:if test="${whologin == 2}">
+											<button type="submit" class="btn btn-secondary btn-lg">수정</button>
+											<button type="reset" class="btn btn-secondary btn-lg">삭제</button>											
+											</c:if>									
+										</div>
+									</a>
+								</div>
+							</td>
+							<c:if test="${status.index mod colsu == (colsu-1)}">
+						</tr>
+					</c:if>
+				</c:forEach>			
+			</tbody>
+		</table>
+		${requestScope.pageInfo.pagingHtml}			
+	</div>	 
+</body>
+</html>

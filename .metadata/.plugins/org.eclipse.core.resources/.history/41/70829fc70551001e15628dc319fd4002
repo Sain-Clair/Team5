@@ -1,0 +1,8 @@
+package com.shopping.controller.comment;
+
+import com.shopping.controller.SuperClass;
+
+public class CommentDeleteController  extends SuperClass{
+	
+
+}

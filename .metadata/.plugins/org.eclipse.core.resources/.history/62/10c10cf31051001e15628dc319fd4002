@@ -1,0 +1,16 @@
+package com.shopping.controller.board;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.shopping.controller.SuperClass;
+
+public class BoardEmoticonController extends SuperClass{
+	// 이모티콘의 값을 +1 증가시킵니다.
+	@Override
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	
+		super.doGet(request, response);
+	}
+
+}

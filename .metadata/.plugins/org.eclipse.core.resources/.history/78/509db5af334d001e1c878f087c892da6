@@ -1,0 +1,7 @@
+package com.shopping.controller.product;
+
+import com.shopping.controller.SuperClass;
+
+public class ProductUpdateController extends SuperClass {
+
+}
